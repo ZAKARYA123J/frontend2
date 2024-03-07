@@ -8,8 +8,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import api from './Api';
 import Banque from './Banque';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { createTheme } from '@mui/material/styles';
+import { IoMdAddCircle } from "react-icons/io";
+
 
 function Acounte() {
+  const theme=createTheme()
+  const isLargeScreen=useMediaQuery(theme.breakpoints.up('lg'))
+  const isSmallscren=useMediaQuery(theme.breakpoints.up('xs'))
   const [name, setName] = useState('');
   const [open, setOpen] = useState(false);
   const [nameList, setNameList] = useState([]);
@@ -57,8 +64,9 @@ function Acounte() {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Ajouter un nom de compte
+      <Button variant="outlined" color="error" onClick={handleClickOpen}>
+        Ajouter un nom de Societe 
+        <IoMdAddCircle style={{paddingLeft:'10px',fontSize:'30px'}}/>
       </Button>
       <Dialog
         open={open}
@@ -87,7 +95,14 @@ function Acounte() {
           <Button type="submit">Ajouter</Button>
         </DialogActions>
       </Dialog>
-      <Banque names={nameList} />
+      <div style={{
+  paddingLeft: isLargeScreen ? '40px' : '10px',
+  paddingTop: isLargeScreen ? '20px' : '10px',
+  minWidth: isLargeScreen ? '1050px' : '450px'
+}}>
+  <Banque names={nameList} />
+</div>
+
     </div>
   );
 }

@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 
 function HomePage() {
@@ -41,9 +42,11 @@ function HomePage() {
                 </Typography>
               </Box>
               <Grid container spacing={1} justifyContent="center">
-      <Grid item>
-        <Button variant="contained">Connecter</Button>
-      </Grid>
+              <Grid item>
+      <Button variant="contained" component={Link} to="/Acounte">
+        Connecter
+      </Button>
+    </Grid>
       <Grid item>
         <Button variant="contained" color="secondary">Inscrire</Button>
       </Grid>

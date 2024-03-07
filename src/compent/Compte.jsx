@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Grid from '@material-ui/core/Grid';
+import api from './Api';
 
 const validationSchema = Yup.object({
   banque: Yup.string().required('Bank is required'),
@@ -22,9 +23,23 @@ function Compte() {
       banque: '',
       number: '',
       city: '',
+      BanqueID: '',
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit:async (values) => {
+      try{
+        const generatedBanqueID = Math.floor(Math.random() * 1000);
+        const valuesWithID = { ...values, BanqueID: generatedBanqueID };
+        const response=await api.post('/compte/create',{
+          NumeroComte: values.number, // Assuming "number" corresponds to "NumeroComte"
+          BanqueID: valuesWithID.BanqueID,
+          city: values.city,
+          banqueName: values.banque,
+        })
+        console.log(response.data,'api response')
+      }catch(error){
+
+      }
       // Handle form submission logic here
       console.log('Form submitted with values:', values);
     },

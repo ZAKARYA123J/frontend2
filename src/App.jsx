@@ -6,6 +6,7 @@ import HomePage from './compent/Home';
 import Acounte from './compent/AccountPage';
 import Banque from './compent/Banque';
 import Compte from './compent/Compte';
+import Interface from './compent/carnet';
 function App() {
   return (
     <Router>
@@ -16,8 +17,8 @@ function App() {
           <Routes>
           <Route path='/' element={<HomePage/>}/>
           <Route path='/Acounte' element={<Acounte/>}/>
-          <Route path='/banque' element={<Banque/>}/>
           <Route path='/Compte' element={<Compte/>}/>
+          <Route path='/carnet' element={<Interface/>}/>
 
           </Routes>
     </Router>
