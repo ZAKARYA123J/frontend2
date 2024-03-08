@@ -1,7 +1,7 @@
 // Banque.jsx
 import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import { Button } from '@material-ui/core';
+import { Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import { MdLibraryAdd } from "react-icons/md";
 import { MdAdd } from "react-icons/md";
@@ -13,7 +13,7 @@ function Banque({ names }) {
 
   return (
     <div>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} style={{marginTop:"50px"}}>
         <Table  aria-label="simple table">
           <TableHead>
             <TableRow>

@@ -1,11 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Grid from '@material-ui/core/Grid';
+import { Button, Container, Row, Col, Form } from 'react-bootstrap';
 import api from './Api';
 
 const validationSchema = Yup.object({
@@ -15,9 +11,6 @@ const validationSchema = Yup.object({
 });
 
 function Compte() {
-  const theme = createTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
   const formik = useFormik({
     initialValues: {
       banque: '',
@@ -26,19 +19,19 @@ function Compte() {
       BanqueID: '',
     },
     validationSchema: validationSchema,
-    onSubmit:async (values) => {
-      try{
+    onSubmit: async (values) => {
+      try {
         const generatedBanqueID = Math.floor(Math.random() * 1000);
         const valuesWithID = { ...values, BanqueID: generatedBanqueID };
-        const response=await api.post('/compte/create',{
-          NumeroComte: values.number, // Assuming "number" corresponds to "NumeroComte"
+        const response = await api.post('/compte/create', {
+          NumeroComte: values.number,
           BanqueID: valuesWithID.BanqueID,
           city: values.city,
           banqueName: values.banque,
-        })
-        console.log(response.data,'api response')
-      }catch(error){
-
+        });
+        console.log(response.data, 'api response');
+      } catch (error) {
+        // Handle error
       }
       // Handle form submission logic here
       console.log('Form submitted with values:', values);
@@ -46,57 +39,69 @@ function Compte() {
   });
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} sm={6} style={{ paddingLeft: isSmallScreen ? '10px' : '70px' ,paddingTop:isSmallScreen ? '70px':'0'}}>
-        <form onSubmit={formik.handleSubmit}>
-          <TextField
-            label="Bank"
-            name="banque"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.banque}
-            error={formik.touched.banque && Boolean(formik.errors.banque)}
-            helperText={formik.touched.banque && formik.errors.banque}
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            label="Account Number"
-            name="number"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.number}
-            error={formik.touched.number && Boolean(formik.errors.number)}
-            helperText={formik.touched.number && formik.errors.number}
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            label="City"
-            name="city"
-            type="text"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.city}
-            error={formik.touched.city && Boolean(formik.errors.city)}
-            helperText={formik.touched.city && formik.errors.city}
-            margin="normal"
-            fullWidth
-          />
-          <Button type="submit" variant="contained" color="primary" fullWidth>
-            Submit
-          </Button>
-        </form>
-      </Grid>
-      <Grid item xs={12} sm={6} style={{ paddingLeft: isSmallScreen ? '20px' : '70px' }}>
-        <img
+    <Container>
+      <Row className="justify-content-md-center">
+        <Col xs={12} sm={6} style={{ paddingLeft: '70px', paddingTop: '70px' }}>
+          <Form onSubmit={formik.handleSubmit}>
+            <Form.Group controlId="formBanque">
+              <Form.Label>Bank</Form.Label>
+              <Form.Control
+                type="text"
+                name="banque"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.banque}
+                isInvalid={formik.touched.banque && Boolean(formik.errors.banque)}
+              />
+              <Form.Control.Feedback type="invalid">
+                {formik.touched.banque && formik.errors.banque}
+              </Form.Control.Feedback>
+            </Form.Group>
 
-          src="https://th.bing.com/th/id/OIP.U1Z01QLX2ColZ1EepcPSrAAAAA?rs=1&pid=ImgDetMain"
-          alt="Your Alt Text"
-          style={{ maxWidth: '95%', marginBottom: '20px',borderRadius:'10px' }}
-        />
-      </Grid>
-    </Grid>
+            <Form.Group controlId="formNumber">
+              <Form.Label>Account Number</Form.Label>
+              <Form.Control
+                type="text"
+                name="number"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.number}
+                isInvalid={formik.touched.number && Boolean(formik.errors.number)}
+              />
+              <Form.Control.Feedback type="invalid">
+                {formik.touched.number && formik.errors.number}
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group controlId="formCity">
+              <Form.Label>City</Form.Label>
+              <Form.Control
+                type="text"
+                name="city"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.city}
+                isInvalid={formik.touched.city && Boolean(formik.errors.city)}
+              />
+              <Form.Control.Feedback type="invalid">
+                {formik.touched.city && formik.errors.city}
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            <Button type="submit" variant="primary" block>
+              Submit
+            </Button>
+          </Form>
+        </Col>
+        <Col xs={12} sm={6} style={{ paddingLeft: '20px' }}>
+          <img
+            src="https://th.bing.com/th/id/OIP.U1Z01QLX2ColZ1EepcPSrAAAAA?rs=1&pid=ImgDetMain"
+            alt="Your Alt Text"
+            style={{ maxWidth: '95%', marginBottom: '20px', borderRadius: '10px' }}
+          />
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

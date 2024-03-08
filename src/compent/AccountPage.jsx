@@ -64,10 +64,7 @@ function Acounte() {
 
   return (
     <div>
-      <Button variant="outlined" color="error" onClick={handleClickOpen}>
-        Ajouter un nom de Societe 
-        <IoMdAddCircle style={{paddingLeft:'10px',fontSize:'30px'}}/>
-      </Button>
+    
       <Dialog
         open={open}
         onClose={handleClose}
@@ -102,7 +99,10 @@ function Acounte() {
 }}>
   <Banque names={nameList} />
 </div>
-
+<Button variant="outlined" color="error" onClick={handleClickOpen} style={{marginTop:"10px"}}>
+        Ajouter un nom de Societe 
+        <IoMdAddCircle style={{paddingLeft:'10px',fontSize:'30px'}}/>
+      </Button>
     </div>
   );
 }
