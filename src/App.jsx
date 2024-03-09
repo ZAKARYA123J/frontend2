@@ -7,6 +7,7 @@ import Acounte from './compent/AccountPage';
 import Banque from './compent/Banque';
 import Compte from './compent/Compte';
 import Interface from './compent/carnet';
+import ChequeComponent from './compent/Cheque';
 function App() {
   return (
     <Router>
@@ -19,6 +20,7 @@ function App() {
           <Route path='/Acounte' element={<Acounte/>}/>
           <Route path='/Compte' element={<Compte/>}/>
           <Route path='/carnet' element={<Interface/>}/>
+          <Route path='/chequeprint' element={<ChequeComponent/>}/>
 
           </Routes>
     </Router>
