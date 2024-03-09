@@ -47,6 +47,11 @@ function HomePage() {
         Connecter
       </Button>
     </Grid>
+              <Grid item>
+      <Button variant="contained" component={Link} to="/chequeprint">
+        Imprimer le chéque
+      </Button>
+    </Grid>
       <Grid item>
         <Button variant="contained" color="secondary">Inscrire</Button>
       </Grid>
