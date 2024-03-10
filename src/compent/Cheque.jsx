@@ -1,121 +1,122 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ReactToPrint } from 'react-to-print';
-import { Form, Button } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { IoIosPrint } from "react-icons/io";
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
-class ChequeComponent extends React.Component {
-  constructor(props) {
-    super(props);
+function ChequeComponent() {
+  const theme = createTheme();
+  const isSmallsize=useMediaQuery(theme.breakpoints.up('xs'))
+  const [formValues, setFormValues] = useState({
+    banqueName: '',
+    montant: '',
+    aLordreDe: '',
+    faitA: '',
+    date: '',
+  });
 
-    this.componentRef = React.createRef();
+  const componentRef = useRef();
 
-    this.state = {
-      banqueName: '',
-      montant: '',
-      aLordreDe: '',
-      faitA: '',
-      date: '',
-    };
-  }
-
-  handleInputChange = (event) => {
+  const handleInputChange = (event) => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    setFormValues({ ...formValues, [name]: value });
   };
 
-  render() {
-    return (
-        <Container fluid>
-            <Row >
-                <Col xs={12} sm={12} >
-        <Form  onSubmit={(e) => e.preventDefault()}>
-          <Form.Group controlId="banqueName" className="mb-3">
-          <Form.Select
-  name="banqueName"
-  value={this.state.banqueName}
-  onChange={this.handleInputChange}
-  required
-  style={{ width: '100%' }}
->
-  <option value="CIH">CIH</option>
-  <option value="ATTIJARIWAFA BANK">ATTIJARIWAFA BANK</option>
-  <option value="BANK OF AFRICA">BANK OF AFRICA</option>
-  <option value="AL BARID BANK">AL BARID BANK</option>
-  <option value="CREDIT AGRICOLE">CREDIT AGRICOLE</option>
-  <option value="SOCIETE GENERALE">SOCIETE GENERALE</option>
-  <option value="CREDIT DU MAROC">CREDIT DU MAROC</option>
-  
-  {/* Add more options as needed */}
-</Form.Select>
+ 
+  const matchesXS = useMediaQuery(theme.breakpoints.down('sm'));
 
-          </Form.Group>
-          <Form.Group controlId="montant" className="mb-3">
-            <Form.Label style={{marginTop:"20%"}}>Montant:</Form.Label>
-            <Form.Control
+  return (
+    <Container maxWidth="lg">
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={6}>
+          <TextField
+       sx={{
+        ...(isSmallsize ? { marginTop: "10px" } : {}),
+        ...(matchesXS ? { marginTop: "100px" } : {}),
+      }}
+      // Conditional margin based on screen size
+            select
+            label="Banque"
+            name="banqueName"
+            value={formValues.banqueName}
+            onChange={handleInputChange}
+            fullWidth
             required
-              type="text"
-              name="montant"
-              value={this.state.montant}
-              onChange={this.handleInputChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="aLordreDe" className="mb-3">
-            <Form.Label>A l'ordre de:</Form.Label>
-            <Form.Control
+            margin="normal"
+          >
+            {['CIH', 'ATTIJARIWAFA BANK', 'BANK OF AFRICA', 'AL BARID BANK', 'CREDIT AGRICOLE', 'SOCIETE GENERALE', 'CREDIT DU MAROC'].map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+          {/* Repeat for other fields with appropriate labels and names */}
+          <TextField
+            label="Montant"
+            type="number"
+            name="montant"
+            value={formValues.montant}
+            onChange={handleInputChange}
+            fullWidth
             required
-              type="text"
-              name="aLordreDe"
-              value={this.state.aLordreDe}
-              onChange={this.handleInputChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="faitA" className="mb-3">
-            <Form.Label>Fait a:</Form.Label>
-            <Form.Control
+            margin="normal"
+          />
+          <TextField
+            label="À l'ordre de"
+            name="aLordreDe"
+            value={formValues.aLordreDe}
+            onChange={handleInputChange}
+            fullWidth
             required
-              type="date"
-              name="faitA"
-              value={this.state.faitA}
-              onChange={this.handleInputChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="date" className="mb-3">
-            <Form.Label>Date:</Form.Label>
-            <Form.Control
+            margin="normal"
+          />
+          <TextField
+            label="Fait à"
+            name="faitA"
+            value={formValues.faitA}
+            onChange={handleInputChange}
+            fullWidth
             required
-              type="date"
-              name="date"
-              value={this.state.date}
-              onChange={this.handleInputChange}
-            />
-          </Form.Group>
-        </Form>
-        </Col>
-        
-        <Col xs={12} sm={6}>
-        <ReactToPrint
-  trigger={() => <Button variant="success" style={{ marginLeft: '10px' }}>Print Cheque <IoIosPrint/></Button>}
-  content={() => this.componentRef.current}
-/>
+            margin="normal"
+          />
+          <TextField
+            label="Date"
+            type="date"
+            name="date"
+            value={formValues.date}
+            onChange={handleInputChange}
+            fullWidth
+            required
+            margin="normal"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Grid>
 
-        <div style={{ marginLeft: '20px' }} ref={this.componentRef} className="w-50">
-          {/* Your Cheque content goes here */}
-          <p>BanqueName: {this.state.banqueName}</p>
-          <p>Montant: {this.state.montant}</p>
-          <p>A l'ordre de: {this.state.aLordreDe}</p>
-          <p>Fait a: {this.state.faitA}</p>
-          <p>Date: {this.state.date}</p>
-        </div>
-        </Col>
-     
-        </Row>
-      </Container>
-    );
-  }
+        <Grid item xs={12} sm={6}>
+          <ReactToPrint
+            trigger={() => <Button variant="contained" startIcon={<IoIosPrint />}>Print Cheque</Button>}
+            content={() => componentRef.current}
+          />
+          <div ref={componentRef}>
+            {/* Displaying the cheque details */}
+            <p>BanqueName: {formValues.banqueName}</p>
+            <p>Montant: {formValues.montant}</p>
+            <p>À l'ordre de: {formValues.aLordreDe}</p>
+            <p>Fait à: {formValues.faitA}</p>
+            <p>Date: {formValues.date}</p>
+          </div>
+        </Grid>
+      </Grid>
+    </Container>
+  );
 }
 
 export default ChequeComponent;
