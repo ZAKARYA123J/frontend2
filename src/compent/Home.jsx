@@ -6,7 +6,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-
 function HomePage() {
   const theme = createTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
@@ -14,10 +13,10 @@ function HomePage() {
 
   return (
     <ThemeProvider theme={theme} >
-      <Box sx={{...(isSmallScreen && {paddingTop:"70px",backgroundColor:'#f0f0f0'})}} > 
-        <Grid container spacing={2} sx={{ ...(isLargeScreen && { paddingLeft: '10px' }) }}>
+      <Box sx={{...(isSmallScreen && {paddingTop:"0px",backgroundColor:'#f0f0f0'})}} > 
+        <Grid container spacing={2} sx={{ ...(isLargeScreen && { paddingLeft: '250px' }) }}>
           <Grid item xs={12}>
-            <Typography variant="h4" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Typography variant="h4" sx={{ display: 'flex', alignItems: 'center', gap: 1 , ...(isLargeScreen && { paddingLeft: '280px' }) }}>
               Gestion<samp className='text-primary'> des Comptes</samp>
             </Typography>
           </Grid>

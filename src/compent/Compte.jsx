@@ -1,8 +1,9 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Button, Container, Row, Col, Form } from 'react-bootstrap';
 import api from './Api';
+import { Link, useParams } from 'react-router-dom';
 
 const validationSchema = Yup.object({
   banque: Yup.string().required('Bank is required'),
@@ -10,24 +11,28 @@ const validationSchema = Yup.object({
   city: Yup.string().required('City is required'),
 });
 
-function Compte() {
+
+function Compte({}) {
+
+  const { idSociete } = useParams();
+
   const formik = useFormik({
     initialValues: {
       banque: '',
       number: '',
-      city: '',
-      BanqueID: '',
+      city: '', // Add the city field here
+      BanqueID: '', // Remove this line if not needed
     },
+    // {idCompte,BanqueName,NumeroCompte,idSociete
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
         const generatedBanqueID = Math.floor(Math.random() * 1000);
-        const valuesWithID = { ...values, BanqueID: generatedBanqueID };
         const response = await api.post('/compte/create', {
-          NumeroComte: values.number,
-          BanqueID: valuesWithID.BanqueID,
-          city: values.city,
-          banqueName: values.banque,
+          idCompte: generatedBanqueID,
+          BanqueName: values.banque,
+          NumeroCompte: values.number,
+          idSociete: idSociete,
         });
         console.log(response.data, 'api response');
       } catch (error) {
@@ -36,10 +41,12 @@ function Compte() {
       // Handle form submission logic here
       console.log('Form submitted with values:', values);
     },
+    
   });
+  const [idCompte, setidCompte] = useState('');
 
   return (
-    <Container>
+    <Container style={{paddingLeft:"300px"}}>
       <Row className="justify-content-md-center">
         <Col xs={12} sm={6} style={{ paddingLeft: '70px', paddingTop: '70px' }}>
           <Form onSubmit={formik.handleSubmit}>
@@ -91,6 +98,7 @@ function Compte() {
             <Button type="submit" variant="primary" block>
               Submit
             </Button>
+            <Link to={`/carnet${idCompte}`}>compte</Link>
           </Form>
         </Col>
         <Col xs={12} sm={6} style={{ paddingLeft: '20px' }}>
@@ -101,6 +109,8 @@ function Compte() {
           />
         </Col>
       </Row>
+     
+
     </Container>
   );
 }

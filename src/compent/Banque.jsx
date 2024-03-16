@@ -6,6 +6,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { MdLibraryAdd } from "react-icons/md";
 import { MdAdd } from "react-icons/md";
 import {Link} from 'react-router-dom'
+import { useContext } from 'react';
+import api from './Api';
 
 
 function Banque({ names }) {

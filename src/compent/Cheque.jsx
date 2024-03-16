@@ -10,7 +10,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ReactToPrint } from 'react-to-print';
 import { IoIosPrint } from "react-icons/io";
 
-function ChequeComponent() {
+function ChequeComponent(props) {
   const theme = createTheme();
   const isSmallsize=useMediaQuery(theme.breakpoints.up('xs'))
   const [formValues, setFormValues] = useState({
@@ -32,14 +32,15 @@ function ChequeComponent() {
   const matchesXS = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Container maxWidth="lg">
-      <Grid container spacing={3}>
+    <Container maxWidth="lg"style={{paddingLeft:"300px"}} >
+      <Grid container spacing={3} >
         <Grid item xs={12} sm={6}>
           <TextField
        sx={{
         ...(isSmallsize ? { marginTop: "10px" } : {}),
         ...(matchesXS ? { marginTop: "100px" } : {}),
       }}
+     
       // Conditional margin based on screen size
             select
             label="Banque"
@@ -77,11 +78,11 @@ function ChequeComponent() {
             margin="normal"
           />
           <TextField
-            label="Fait à"
-            name="faitA"
+           labelm='fet a'
             value={formValues.faitA}
             onChange={handleInputChange}
             fullWidth
+            type="date"
             required
             margin="normal"
           />
@@ -113,6 +114,7 @@ function ChequeComponent() {
             <p>Fait à: {formValues.faitA}</p>
             <p>Date: {formValues.date}</p>
           </div>
+         
         </Grid>
       </Grid>
     </Container>
